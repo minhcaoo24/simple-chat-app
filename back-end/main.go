@@ -1,0 +1,16 @@
+package main
+
+import (
+	"fmt"
+
+	"github.com/gorilla/websocket"
+)
+
+var upgrader = websocket.Upgrader{
+	ReadBufferSize:  1024,
+	WriteBufferSize: 1024,
+}
+
+func main() {
+	fmt.Println("Hello, World")
+}
