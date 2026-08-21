@@ -1,16 +1,23 @@
 package main
 
 import (
-	"fmt"
-
-	"github.com/gorilla/websocket"
+	"flag"
+	"log"
+	"net/http"
 )
 
-var upgrader = websocket.Upgrader{
-	ReadBufferSize:  1024,
-	WriteBufferSize: 1024,
-}
-
 func main() {
-	fmt.Println("Hello, World")
+	var addr = flag.String("addr", ":8080", "The addr of the application.")
+	flag.Parse()
+
+	r := newRoom()
+
+	http.Handle("/room", r)
+
+	go r.run()
+
+	log.Println("Starting web server on", *addr)
+	if err := http.ListenAndServe(*addr, nil); err != nil {
+		log.Fatal("ListenAndServe:", err)
+	}
 }
